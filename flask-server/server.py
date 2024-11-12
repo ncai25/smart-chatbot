@@ -4,13 +4,53 @@ import openai
 import os
 from dotenv import load_dotenv
 from openai import OpenAI
+from flask_sqlalchemy import SQLAlchemy
+from datetime import datetime
+import uuid
 
 load_dotenv()
-openai.api_key = os.getenv("OPENAI_API_KEY")
-
-# make request from next.js to python api, allow other servers to make request
 app = Flask(__name__)
 CORS(app)
+# make request from next.js to python api, allow other servers to make request
+openai.api_key = os.getenv("OPENAI_API_KEY")
+app.config["SQLALCHEMY_DATABASE_URI"] = os.getenv("SUPABASE_URI")
+# app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False # tk
+db = SQLAlchemy(app)
+
+class ChatHistory(db.Model):
+    __tablename__ = 'chat_history'
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.String, nullable=True)
+    message = db.Column(db.Text, nullable=False)
+    response = db.Column(db.Text, nullable=False)
+    timestamp = db.Column(db.DateTime, default=datetime.utcnow)
+
+with app.app_context():
+    db.create_all()
+
+def store_chat_history(user_id, message, response):
+    chat_entry = ChatHistory(user_id=user_id, message=message, response=response)
+    db.session.add(chat_entry)
+    db.session.commit()
+
+def fetch_chat_history(user_id):
+    history = ChatHistory.query.filter_by(user_id=user_id).order_by(ChatHistory.timestamp).all()
+    return "\n".join([f'User: {entry.message} \nAssistant: {entry.response}' for entry in history])
+
+def read_prev_response(prev_message):
+    client = OpenAI()
+    response = client.chat.completions.create(
+        model="gpt-4o",
+        messages=[
+        {"role": "system", "content": "You are a helpful assistant."},
+        {"role": "user", "content": prev_message}
+    ]
+        # stream=True
+    )
+    return response.choices[0].message.content
+
+# def attach_langchain():
+#     return "langchain"
 
 def generate_openai_response(user_message):
     client = OpenAI()
@@ -18,40 +58,45 @@ def generate_openai_response(user_message):
         model="gpt-4o",
         messages=[
         {"role": "system", "content": "You are a helpful assistant."},
-        {
-            "role": "user",
-            "content": user_message
-        }
+        {"role": "user", "content": user_message}
     ]
         # stream=True
     )
     return response.choices[0].message.content
 
-@app.route("/api/process_message", methods=['POST'])
+
+@app.route("/api/process_message", methods=["POST"])
 def process_message():
     data = request.get_json()
-    user_message = data.get('message')
+    print(data)
+    user_id = data.get("user_id")
+    message = data.get("message")
 
-    bot_response = generate_openai_response(user_message)
+    if not user_id:
+        user_id = str(uuid.uuid4()) # tk
+        
+    history = fetch_chat_history(user_id)
 
-    # give open access to read chat history
-    # store it somewhere in the database given the userID
-    return jsonify({"response": bot_response})
+    read_prev_response(history)
+    # openai needs to read the past history and confirm mem is updated
+
+    full_conversation = f"Past History: {history}\nUser: {message}"
+    response = generate_openai_response(full_conversation)
+    store_chat_history(user_id, message, response)
+
+    return jsonify({"response": response})
+
+
+# @app.route("/api/process_message", methods=['POST'])
+# def process_message():
+#     data = request.get_json()
+#     user_message = data.get('message')
+
+#     bot_response = generate_openai_response(user_message)
+
+#     # give open access to read chat history
+#     # store it somewhere in the database given the userID
+#     return jsonify({"response": bot_response})
 
 if __name__ == "__main__": 
     app.run(debug=True, port=8080)
-
-
-# allow the next.js make a request to our api
-# then use the fetch api in page.tsx, call the endpoint localhost 8080
-# response goes to json and state set to be message data variable
-# @app.route("/api/home", methods=['GET'])
-# def members(): 
-#     return jsonify({
-#         'message': "something",
-#         'people': ['jack', 'harry', 'barry']
-#     })
-
-# @app.route('/wibble2')
-# def wibble2():
-#     return 'This is my pointless new page'
