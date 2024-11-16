@@ -4,7 +4,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import { Send } from "lucide-react";
 // import Message from "./components/Messages";
-import { useRef, useState } from "react";
+import { useRef, useState, useEffect } from "react";
 
 interface Message {
   role: string;
@@ -15,9 +15,19 @@ export default function Home() {
   // const { messages, handleSubmit, input, handleInputChange } = useChat();
   const formRef = useRef<HTMLFormElement>(null);
   const [messages, setMessages] = useState<Message[]>([]);
-  const [input, setInput] = useState(""); 
+  const [input, setInput] = useState("");
+  const [userId, setUserId] = useState<string | null>(null);
 
-  async function handleSubmit(e: { preventDefault: () => void; }) {
+  useEffect(() => {
+    let storedUserId = localStorage.getItem("userId");
+    if (!storedUserId) {
+      storedUserId = crypto.randomUUID();
+      localStorage.setItem("userId", storedUserId);
+    }
+    setUserId(storedUserId);
+  }, []);
+
+  async function handleSubmit(e: { preventDefault: () => void }) {
     e.preventDefault();
     if (!input.trim()) return;
 
@@ -25,18 +35,25 @@ export default function Home() {
       ...prevMessages,
       { role: "user", content: input },
     ]);
+    if (!userId) {
+      console.error("User ID is missing!");
+      return;
+    }
 
     const res = await fetch("http://localhost:8080/api/process_message", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ message: input}),
+      body: JSON.stringify({
+        message: input, 
+        userId, 
+      }),
     });
 
     const data = await res.json();
     const botResponse = data.response;
-    
+
     setMessages((prevMessages) => [
       ...prevMessages,
       { role: "bot", content: botResponse },
@@ -44,7 +61,6 @@ export default function Home() {
 
     setInput("");
   }
-
 
   function handleKeyDown(e: React.KeyboardEvent<HTMLTextAreaElement>) {
     if (e.key === "Enter" && !e.shiftKey) {
@@ -56,7 +72,7 @@ export default function Home() {
   function handleInputChange(e: React.ChangeEvent<HTMLTextAreaElement>) {
     setInput(e.target.value);
   }
-  
+
   return (
     <main className="fixed h-full w-full  bg-muted">
       <div className="container h-full w-full max-w-2xl mx-auto flex flex-col py-8">
