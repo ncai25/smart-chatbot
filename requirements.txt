@@ -1,4 +1,11 @@
-flask
+Flask
+Flask-Cors
 python-dotenv
 flask_sqlalchemy
 openai
+supabase
+Markdown
+requests
+jsonify
+datetime
+tiktoken
