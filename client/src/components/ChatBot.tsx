@@ -2,7 +2,6 @@
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import { Send } from "lucide-react";
-// import Message from "./components/Messages";
 import { useRef, useState, useEffect } from "react";
 import { createClient } from "@/utils/supabase/client";
 
@@ -12,7 +11,6 @@ interface Message {
 }
 
 export default function Chatbot() {
-  // const { messages, handleSubmit, input, handleInputChange } = useChat();
   const formRef = useRef<HTMLFormElement>(null);
   const [messages, setMessages] = useState<Message[]>([]);
   const [input, setInput] = useState("");
