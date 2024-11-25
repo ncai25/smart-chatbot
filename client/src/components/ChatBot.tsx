@@ -1,10 +1,10 @@
 "use client";
 import { Textarea } from "@/components/ui/textarea";
-// import { useChat } from "ai/react";
 import { Button } from "@/components/ui/button";
 import { Send } from "lucide-react";
 // import Message from "./components/Messages";
 import { useRef, useState, useEffect } from "react";
+import { createClient } from "@/utils/supabase/client";
 
 interface Message {
   role: string;
@@ -17,15 +17,38 @@ export default function Chatbot() {
   const [messages, setMessages] = useState<Message[]>([]);
   const [input, setInput] = useState("");
   const [userId, setUserId] = useState<string | null>(null);
+  const supabase = createClient();
 
   useEffect(() => {
-    let storedUserId = localStorage.getItem("userId");
-    if (!storedUserId) {
-      storedUserId = crypto.randomUUID();
-      localStorage.setItem("userId", storedUserId);
-    }
-    setUserId(storedUserId);
+    const initializeUser = async () => {
+      const {
+        data: { user },
+      } = await supabase.auth.getUser();
+
+      if (user) {
+        setUserId(user.id);
+      } else {
+        const storedUserId = localStorage.getItem("userId");
+        if (storedUserId) {
+          setUserId(storedUserId);
+        } else {
+          const newUserId = crypto.randomUUID();
+          localStorage.setItem("userId", newUserId);
+          setUserId(newUserId);
+        }
+      }
+    };
+    initializeUser();
   }, []);
+
+  // useEffect(() => {
+  //   let storedUserId = localStorage.getItem("userId");
+  //   if (!storedUserId) {
+  //     storedUserId = crypto.randomUUID();
+  //     localStorage.setItem("userId", storedUserId);
+  //   }
+  //   setUserId(storedUserId);
+  // }, []);
 
   async function handleSubmit(e: { preventDefault: () => void }) {
     e.preventDefault();
@@ -35,19 +58,21 @@ export default function Chatbot() {
       ...prevMessages,
       { role: "user", content: input },
     ]);
-    if (!userId) {
-      console.error("User ID is missing!");
-      return;
-    }
+    // if (!userId) {
+    //   console.error("User ID is missing!");
+    //   return;
+    // }
+
+    const headers = {
+      "Content-Type": "application/json",
+    };
 
     const res = await fetch("http://localhost:8080/api/process_message", {
       method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
+      headers: headers,
       body: JSON.stringify({
         message: input,
-        userId,
+        userId: userId,
       }),
     });
 
