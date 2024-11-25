@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Send } from "lucide-react";
 import { useRef, useState, useEffect } from "react";
 import { createClient } from "@/utils/supabase/client";
+import ReactMarkdown from "react-markdown";
 
 interface Message {
   role: string;
@@ -56,10 +57,6 @@ export default function Chatbot() {
       ...prevMessages,
       { role: "user", content: input },
     ]);
-    // if (!userId) {
-    //   console.error("User ID is missing!");
-    //   return;
-    // }
 
     const headers = {
       "Content-Type": "application/json",
@@ -114,7 +111,18 @@ export default function Chatbot() {
                     : "bg-gray-200"
                 }`}
               >
-                <p>{message.content}</p>
+                <ReactMarkdown
+                  components={{
+                    ol: ({ node, ...props }) => (
+                      <ol className="list-decimal pl-5" {...props} />
+                    ),
+                    ul: ({ node, ...props }) => (
+                      <ul className="list-disc pl-5" {...props} />
+                    ),
+                  }}
+                >
+                  {message.content}
+                </ReactMarkdown>
               </div>
             </div>
           ))}

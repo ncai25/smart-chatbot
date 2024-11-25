@@ -11,3 +11,5 @@ npm install @supabase/auth-helpers-nextjs@latest
 npm run dev                                    
 
 python server/server.py
+
+npm install react-markdown
