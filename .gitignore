@@ -37,8 +37,9 @@ yarn-error.log*
 next-env.d.ts
 
 # smart-chatbot specific
-smart-chatbot/.env
-smart-chatbot/node_modules/
-smart-chatbot/coverage
-smart-chatbot/.next
-smart-chatbot/node_modules/*
+client/.env
+client/node_modules/
+client/coverage
+client/.next
+client/node_modules/*
+client/.env.local

@@ -11,7 +11,7 @@ interface Message {
   content: string;
 }
 
-export default function Home() {
+export default function Chatbot() {
   // const { messages, handleSubmit, input, handleInputChange } = useChat();
   const formRef = useRef<HTMLFormElement>(null);
   const [messages, setMessages] = useState<Message[]>([]);
@@ -46,8 +46,8 @@ export default function Home() {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        message: input, 
-        userId, 
+        message: input,
+        userId,
       }),
     });
 
@@ -118,16 +118,6 @@ export default function Home() {
           </Button>
         </form>
       </div>
-      {/* <div className="container h-full w-full max-w-2xl mx-auto flex flex-col py-8">
-        <div className="flex-1 overflow-y-auto">
-          {messages.map((message) => (
-            <Message key={message.id} message={message} />
-            // <div key={message.id} className="flex items-center">
-            //   <div className="w-8 h-8 bg-primary rounded-full mr-4"></div>
-            //   <div className="bg-white p-4 rounded-lg">
-            //     <p className="text-lg">{message.content}</p>
-            //   </div>
-            // </div>*/}
     </main>
   );
 }

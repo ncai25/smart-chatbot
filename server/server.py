@@ -37,7 +37,7 @@ def store_chat_history(user_id, message, response):
     db.session.add(chat_entry)
     db.session.commit()
 
-def fetch_chat_history(user_id, max_tokens=3000):
+def fetch_chat_history(user_id, max_tokens=1000):
     encoding = tiktoken.encoding_for_model("gpt-4o")
     messages = []
     total_tokens = 0
@@ -66,7 +66,7 @@ def generate_openai_response(messages):
     response = client.chat.completions.create(
         model="gpt-4o",
         messages=messages, 
-        temperature=0.7
+        temperature=0.7 # indicates its level of creativity
         # stream=True
     )
     return response.choices[0].message.content
