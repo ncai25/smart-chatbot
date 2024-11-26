@@ -43,5 +43,3 @@ client/coverage
 client/.next
 client/node_modules/*
 client/.env.local
-
-testing.ipynb

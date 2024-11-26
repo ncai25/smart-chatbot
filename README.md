@@ -120,6 +120,7 @@ Future Feature Improvements to Consider:
 
 Minor issues: 
 - The chatbot currently states that it only has access to the current session’s memory, despite having access to previous questions if logged in. This can be clarified in the OpenAI setting in the backend. 
+- If a question  entails a long answer, there may be some lag in the response and the question inbox will clear out after a few seconds.
 
 ## Built With
 
