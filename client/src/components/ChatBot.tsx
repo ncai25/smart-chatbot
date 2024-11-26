@@ -10,7 +10,6 @@ interface Message {
   role: string;
   content: string;
 }
-
 export default function Chatbot() {
   const formRef = useRef<HTMLFormElement>(null);
   const [messages, setMessages] = useState<Message[]>([]);
@@ -18,37 +17,23 @@ export default function Chatbot() {
   const [userId, setUserId] = useState<string | null>(null);
   const supabase = createClient();
 
-  useEffect(() => {
-    const initializeUser = async () => {
-      const {
-        data: { user },
-      } = await supabase.auth.getUser();
+useEffect(() => {
+  const initializeUser = async () => {
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
 
-      if (user) {
-        setUserId(user.id);
-      } else {
-        const storedUserId = localStorage.getItem("userId");
-        if (storedUserId) {
-          setUserId(storedUserId);
-        } else {
-          const newUserId = crypto.randomUUID();
-          localStorage.setItem("userId", newUserId);
-          setUserId(newUserId);
-        }
-      }
-    };
-    initializeUser();
-  }, []);
-
-  // useEffect(() => {
-  //   let storedUserId = localStorage.getItem("userId");
-  //   if (!storedUserId) {
-  //     storedUserId = crypto.randomUUID();
-  //     localStorage.setItem("userId", storedUserId);
-  //   }
-  //   setUserId(storedUserId);
-  // }, []);
-
+    if (user) {
+      // Authenticated user
+      setUserId(user.id);
+    } else {
+      // Unauthenticated user
+      const newUserId = crypto.randomUUID();
+      setUserId(newUserId);
+    }
+  };
+  initializeUser();
+}, []);
   async function handleSubmit(e: { preventDefault: () => void }) {
     e.preventDefault();
     if (!input.trim()) return;
