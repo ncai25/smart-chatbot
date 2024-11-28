@@ -10,3 +10,4 @@ jsonify
 datetime
 tiktoken
 psycopg2
+gunicorn
