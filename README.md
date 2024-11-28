@@ -114,7 +114,7 @@ Open http://localhost:3000 in your browser to use the chatbot.
 4. Sign up or Log in: 
 
 Save and access the chatbot history by logging in via Google OAuth or email confirmation.
-
+`
 
 ## Updates in the future
 
