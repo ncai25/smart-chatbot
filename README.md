@@ -2,21 +2,28 @@
 
 ## Description
 
-A full-stack smart chatbot project built with Next.js for the frontend and Python Flask for the backend. The chatbot integrates with Supabase for authentication and database management. 
+A full-stack smart chatbot project built with Next.js for the frontend (deployed on Vercel) and Python Flask for the backend (deployed on Heroku). The chatbot integrates with Supabase for authentication and database management.
 
 ### Features
 
 - AI-powered chatbot with a Python backend
-- Secure user authentication via Supabase, via Google OAuth or email sign in
-- Markdown support for rich-text response
+- Secure user authentication via Supabase (Google OAuth or email sign-in)
+- Markdown support for rich-text responses
 - Modern UI with ShadCN components
-- Full-stack integration with Next.js and Python
+- Fully cloud-deployed on Vercel (frontend) and Heroku (backend)
 
-## Installation
+## Deployment
+
+### Live URLs
+- Frontend (Vercel): https://smart-chatbot-dkz564vib-ncai25s-projects.vercel.app
+- Backend (Heroku): https://smart-chatbot-ai-9ee85a878b8f.herokuapp.com/
+
+
+## Installation (For Local Development)
 
 ### Prerequisites
 
-To set up this project, ensure you have the following:
+To set up this project locally, ensure you have the following:
 
 1. OpenAI API Key: 
 
@@ -56,85 +63,85 @@ pip install -r requirements.txt
 3. Run the Python Backend
 
 ```bash
-python server.py
+python app.py
 ```
+
+4.	Local Testing
+
+By default, the backend runs on http://localhost:8080.
 
 ### Frontend Setup
 
-1. Create a Next.js App
+1. Navigate to the Client  Directory
 
 ```bash
-npx create-next-app@latest
+cd client
 ```
 
-2. Add ShadCN Components
+2. Install Dependencies
 
 ```bash
+npm install
 npx shadcn@latest add button card input label
-```
-
-3. Install Supabase and React Markdown
-
-```bash
-npm install @supabase/supabase-js @supabase/auth-helpers-nextjs react-markdown
 npm install @supabase/supabase-js @supabase/ssr
+npm install @supabase/supabase-js @supabase/auth-helpers-nextjs react-markdown
 ```
 
-4. Make a copy of the .env.local.example file located in the client/src/ directory and name it .env.local. Provide the required keys:
+3. Set Environment Variables
 
-Paste your keys for `NEXT_PUBLIC_SUPABASE_URLY` and `NEXT_PUBLIC_SUPABASE_ANON_KEY`.
+Make a copy of the .env.local.example file in the client/src/ directory and name it .env.local.
 
-5. Start the Development Server
+Paste your keys for `NEXT_PUBLIC_SUPABASE_URLY`, `NEXT_PUBLIC_SUPABASE_ANON_KEY` and    `NEXT_PUBLIC_API_URL` (e.g., https://your-heroku-app-url).
+
+
+4. Run the Frontend Locally
 
 ```bash
 npm run dev
 ```
+
+5.	Local Testing
+
+By default, the frontend runs on http://localhost:3000.
 
 
 ## Usage
 
-1. Launch the Frontend: 
+1.	Access the Live App:
+Use the chatbot at https://smart-chatbot-dkz564vib-ncai25s-projects.vercel.app.
 
-Navigate to the root directory and run: 
-```bash
-npm run dev
-```
 
-2. Start the Backend:
+2. Interact with the Chatbot:
+Send queries to the chatbot and view AI-powered responses.
 
-In the server/ directory, activate your virtual environment and run:
-```bash
-python server.py
-```
-
-3. Interact with the Chatbot:
-
-Open http://localhost:3000 in your browser to use the chatbot.
-
-4. Sign up or Log in: 
-
+3. Sign up or Log in: 
 Save and access the chatbot history by logging in via Google OAuth or email confirmation.
-`
+
+4. Backend Testing:
+For testing backend endpoints (e.g., /api/process_message), use tools like Insomnia or curl.
+
+5.	Development:
+For local development, launch both the frontend and backend using the steps above.
 
 ## Updates in the future
 
 Future Feature Improvements to Consider:
 - Integrating OpenAI Responses with LangChain
-- Cloud Deployment
 - OpenAI Response Caching 
 - Streaming for Faster Response Generation
 - Improved Markdown Format
 
 Minor issues: 
-- The chatbot currently states that it only has access to the current session’s memory, despite having access to previous questions if logged in. This can be clarified in the OpenAI setting in the backend. 
-- If a question  entails a long answer, there may be some lag in the response and the question inbox will clear out after a few seconds.
-- Repeated sign up cannot be detected. 
+- The chatbot currently states that it only has access to the current session’s memory, despite having access to previous questions if logged in. This can be clarified in the backend OpenAI settings.
+- If a question entails a long answer, there may be some lag in the response, and the question inbox will clear out after a few seconds.
+- Repeated sign-ups cannot currently be detected.
 
 ## Built With
 
 - Frontend: Next.js, Supabase, ShadCN UI, React Markdown
-- Backend: Flask 
+- Backend: Flask (deployed on Heroku)
 - Database: Supabase (PostgreSQL)
+- Deployment: Vercel (Frontend), Heroku (Backend)
 
 
 ## Acknowledgements
