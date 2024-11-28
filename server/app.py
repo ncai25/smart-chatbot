@@ -89,4 +89,4 @@ def process_message():
 #     app.run(debug=True, port=8080)
 
 if __name__ == "__main__":
-    app.run(debug=True, port=int(os.environ.get("PORT", 8080)), host="0.0.0.0")
+    app.run(debug=False, port=int(os.environ.get("PORT", 8080)), host="0.0.0.0")
