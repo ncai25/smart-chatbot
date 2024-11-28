@@ -17,23 +17,23 @@ export default function Chatbot() {
   const [userId, setUserId] = useState<string | null>(null);
   const supabase = createClient();
 
-useEffect(() => {
-  const initializeUser = async () => {
-    const {
-      data: { user },
-    } = await supabase.auth.getUser();
+  useEffect(() => {
+    const initializeUser = async () => {
+      const {
+        data: { user },
+      } = await supabase.auth.getUser();
 
-    if (user) {
-      // Authenticated user
-      setUserId(user.id);
-    } else {
-      // Unauthenticated user
-      const newUserId = crypto.randomUUID();
-      setUserId(newUserId);
-    }
-  };
-  initializeUser();
-}, []);
+      if (user) {
+        // Authenticated user
+        setUserId(user.id);
+      } else {
+        // Unauthenticated user
+        const newUserId = crypto.randomUUID();
+        setUserId(newUserId);
+      }
+    };
+    initializeUser();
+  }, []);
   async function handleSubmit(e: { preventDefault: () => void }) {
     e.preventDefault();
     if (!input.trim()) return;
@@ -47,14 +47,17 @@ useEffect(() => {
       "Content-Type": "application/json",
     };
 
-    const res = await fetch("http://localhost:8080/api/process_message", {
-      method: "POST",
-      headers: headers,
-      body: JSON.stringify({
-        message: input,
-        userId: userId,
-      }),
-    });
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_API_URL}/api/process_message`,
+      {
+        method: "POST",
+        headers: headers,
+        body: JSON.stringify({
+          message: input,
+          userId: userId,
+        }),
+      }
+    );
 
     const data = await res.json();
     const botResponse = data.response;
