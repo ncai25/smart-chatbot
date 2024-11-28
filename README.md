@@ -80,7 +80,11 @@ npm install @supabase/supabase-js @supabase/auth-helpers-nextjs react-markdown
 npm install @supabase/supabase-js @supabase/ssr
 ```
 
-4. Start the Development Server
+4. Make a copy of the .env.local.example file located in the client/src/ directory and name it .env.local. Provide the required keys:
+
+Paste your keys for `NEXT_PUBLIC_SUPABASE_URLY` and `NEXT_PUBLIC_SUPABASE_ANON_KEY`.
+
+5. Start the Development Server
 
 ```bash
 npm run dev
@@ -107,6 +111,9 @@ python server.py
 
 Open http://localhost:3000 in your browser to use the chatbot.
 
+4. Sign up or Log in: 
+
+Save and access the chatbot history by logging in via Google OAuth or email confirmation.
 
 
 ## Updates in the future
@@ -121,6 +128,7 @@ Future Feature Improvements to Consider:
 Minor issues: 
 - The chatbot currently states that it only has access to the current session’s memory, despite having access to previous questions if logged in. This can be clarified in the OpenAI setting in the backend. 
 - If a question  entails a long answer, there may be some lag in the response and the question inbox will clear out after a few seconds.
+- Repeated sign up cannot be detected. 
 
 ## Built With
 
