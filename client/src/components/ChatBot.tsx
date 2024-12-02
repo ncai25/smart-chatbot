@@ -38,6 +38,8 @@ export default function Chatbot() {
     e.preventDefault();
     if (!input.trim()) return;
 
+    setInput("");
+
     setMessages((prevMessages) => [
       ...prevMessages,
       { role: "user", content: input },
