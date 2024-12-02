@@ -15,7 +15,7 @@ A full-stack smart chatbot project built with Next.js for the frontend (deployed
 ## Deployment
 
 ### Live URLs
-- Frontend (Vercel): https://smart-chatbot-dkz564vib-ncai25s-projects.vercel.app
+- Frontend (Vercel): [https://smart-chatbot-dkz564vib-ncai25s-projects.vercel.app](https://smart-chatbot-emfu2gfx2-ncai25s-projects.vercel.app)
 - Backend (Heroku): https://smart-chatbot-ai-9ee85a878b8f.herokuapp.com/
 
 
