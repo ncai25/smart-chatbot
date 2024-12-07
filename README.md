@@ -2,7 +2,7 @@
 
 ## Description
 
-A full-stack smart chatbot project built with Next.js for the frontend (deployed on Vercel) and Python Flask for the backend (deployed on Heroku). The chatbot integrates with Supabase for authentication and database management.
+A full-stack smart chatbot project built with Next.js for the frontend (deployed on Vercel) and Python Flask for the backend (deployed on Render). The chatbot integrates with Supabase for authentication and database management.
 
 ### Features
 
@@ -10,13 +10,13 @@ A full-stack smart chatbot project built with Next.js for the frontend (deployed
 - Secure user authentication via Supabase (Google OAuth or email sign-in)
 - Markdown support for rich-text responses
 - Modern UI with ShadCN components
-- Fully cloud-deployed on Vercel (frontend) and Heroku (backend)
+- Fully cloud-deployed on Vercel (frontend) and Render (backend)
 
 ## Deployment
 
 ### Live URLs
 - Frontend (Vercel): https://smart-chatbot-innovation-ai.vercel.app/
-- Backend (Heroku): https://smart-chatbot-ai-9ee85a878b8f.herokuapp.com/
+- Backend (Render): https://smart-chatbot-1qsk.onrender.com
 
 
 ## Installation (For Local Development)
@@ -91,7 +91,7 @@ npm install @supabase/supabase-js @supabase/auth-helpers-nextjs react-markdown
 
 Make a copy of the .env.local.example file in the client/src/ directory and name it .env.local.
 
-Paste your keys for `NEXT_PUBLIC_SUPABASE_URLY`, `NEXT_PUBLIC_SUPABASE_ANON_KEY` and    `NEXT_PUBLIC_API_URL` (e.g., https://your-heroku-app-url).
+Paste your keys for `NEXT_PUBLIC_SUPABASE_URLY`, `NEXT_PUBLIC_SUPABASE_ANON_KEY` and    `NEXT_PUBLIC_API_URL`.
 
 
 4. Run the Frontend Locally
@@ -138,9 +138,9 @@ Minor issues:
 ## Built With
 
 - Frontend: Next.js, Supabase, ShadCN UI, React Markdown
-- Backend: Flask (deployed on Heroku)
+- Backend: Flask (deployed on Render)
 - Database: Supabase (PostgreSQL)
-- Deployment: Vercel (Frontend), Heroku (Backend)
+- Deployment: Vercel (Frontend), Render (Backend)
 
 
 ## Acknowledgements
