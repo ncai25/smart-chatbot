@@ -142,7 +142,6 @@ Minor issues:
 - Database: Supabase (PostgreSQL)
 - Deployment: Vercel (Frontend), Render (Backend)
 
-
 ## Acknowledgements
 
 - ShadCN UI for the beautiful component library.
